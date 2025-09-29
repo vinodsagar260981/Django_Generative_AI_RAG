@@ -1,3 +1,4 @@
+
 """
 Django settings for rag project.
 
@@ -9,6 +10,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
+import os
 
 from pathlib import Path
 
@@ -25,7 +28,8 @@ SECRET_KEY = 'django-insecure-sx_e5^z$qli3!^oi_a6ed*aw7s@y%+nl4tlem14+b$^c33i-l(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS',
+                          '3.25.90.188,localhost,127.0.0.1').split(',')
 
 
 # Application definition

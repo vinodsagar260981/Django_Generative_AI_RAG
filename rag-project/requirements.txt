@@ -9,3 +9,4 @@ PyPDF2
 gunicorn
 uvicorn
 chill
+django
