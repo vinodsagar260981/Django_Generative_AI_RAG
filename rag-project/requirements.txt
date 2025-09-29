@@ -1,0 +1,10 @@
+langchain
+langchain_community
+qdrant-client
+tiktoken
+langchain-groq
+fastembed
+python-dotenv
+PyPDF2
+gunicorn
+uvicorn

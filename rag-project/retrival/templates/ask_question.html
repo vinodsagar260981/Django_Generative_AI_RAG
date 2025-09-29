@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Questions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        .answer-content {
+            line-height: 1.6;
+        }
+        .answer-content h1, .answer-content h2, .answer-content h3 {
+            color: #2c3e50;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .answer-content ul, .answer-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        .answer-content li {
+            margin-bottom: 0.5rem;
+        }
+        .answer-content p {
+            margin-bottom: 1rem;
+        }
+        .answer-content strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .answer-content code {
+            background-color: #f8f9fa;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Courier New', monospace;
+        }
+        .answer-content blockquote {
+            border-left: 4px solid #007bff;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Ask Questions About the PDF</h1>
+        
+        {% if messages %}
+            <div class="mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="userQuestion" class="form-label">Enter Your Question</label>
+                <textarea name="question" id="userQuestion" class="form-control" rows="4" placeholder="E.g., 'Summarize the main points of the document'" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Question</button>
+        </form>
+
+        {% if answer %}
+            <div class="mt-4">
+                <h3>Answer:</h3>
+                <div class="alert alert-info answer-content" id="answer-container">
+                    <div id="markdown-content"></div>
+                </div>
+            </div>
+            <script>
+                // Convert markdown to HTML and display
+                const markdownText = `{{ answer|escapejs }}`;
+                const htmlContent = marked.parse(markdownText);
+                document.getElementById('markdown-content').innerHTML = htmlContent;
+            </script>
+        {% endif %}
+        
+        {% if error %}
+            <div class="mt-4">
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            </div>
+        {% endif %}
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'upload_pdf' %}" class="btn btn-secondary">Go Back to Upload</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
